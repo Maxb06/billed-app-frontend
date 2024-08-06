@@ -24,6 +24,14 @@ export default class NewBill {
     const email = JSON.parse(localStorage.getItem("user")).email
     formData.append('file', file)
     formData.append('email', email)
+    // fix : [Bug Hunt] - NewBill
+    const fileExtension = fileName.split('.').pop()
+    const validExtensions = ['jpg', 'jpeg', 'png']
+    if (!validExtensions.includes(fileExtension)) {
+      alert('Veuillez sélectionner un fichier avec une extension jpg, jpeg ou png.')
+      this.document.querySelector(`input[data-testid="file"]`).value = "" // Reinitialise le champ de fichier
+      return
+    }
 
     this.store
       .bills()
