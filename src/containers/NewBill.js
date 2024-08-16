@@ -25,11 +25,11 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
     // fix : [Bug Hunt] - NewBill
-    const fileExtension = fileName.split('.').pop()
+    const fileExtension = fileName.split('.').pop().toLowerCase();
     const validExtensions = ['jpg', 'jpeg', 'png']
     if (!validExtensions.includes(fileExtension)) {
       alert('Veuillez sélectionner un fichier avec une extension jpg, jpeg ou png.')
-      this.document.querySelector(`input[data-testid="file"]`).value = "" // Reinitialise le champ de fichier
+      this.document.querySelector(`input[data-testid="file"]`).value = "";
       return
     }
 
