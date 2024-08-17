@@ -28,7 +28,7 @@ export default class NewBill {
     const fileExtension = fileName.split('.').pop().toLowerCase();
     const validExtensions = ['jpg', 'jpeg', 'png']
     if (!validExtensions.includes(fileExtension)) {
-      alert('Veuillez sélectionner un fichier avec une extension jpg, jpeg ou png.')
+      // alert('Veuillez sélectionner un fichier avec une extension jpg, jpeg ou png.')
       this.document.querySelector(`input[data-testid="file"]`).value = "";
       return
     }
@@ -70,6 +70,7 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store
