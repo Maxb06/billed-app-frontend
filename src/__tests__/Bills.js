@@ -82,6 +82,20 @@ describe("Given I am connected as an employee", () => {
   // test d'intégration GET
   describe("Given I am connected as an employee", () => {
     describe("When I navigate to Bills", () => {
+      test("fetches bills from mock API GET for an employee", async () => {    
+        localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "e@e" }));
+        const root = document.createElement("div");
+        root.setAttribute("id", "root");
+        document.body.append(root);
+        router();
+  
+        window.onNavigate(ROUTES_PATH.Bills);
+  
+        await waitFor(() => screen.getByText("Mes notes de frais"));
+        const tbodyElements = screen.getAllByTestId('tbody');
+        expect(tbodyElements.length).toBe(1);
+      });
+  
       test("fetches bills from mock API GET and handles 404 error", async () => {
         // Simule une erreur 404 de l'API
         mockStore.bills = jest.fn(() => {
@@ -89,20 +103,20 @@ describe("Given I am connected as an employee", () => {
             list: jest.fn().mockRejectedValue(new Error("Erreur 404"))
           };
         });
-
+  
         localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "e@e" }));
         const root = document.createElement("div");
         root.setAttribute("id", "root");
         document.body.append(root);
         router();
-
+  
         window.onNavigate(ROUTES_PATH.Bills);
-
+  
         await new Promise(process.nextTick);
         const message = await screen.getByText(/Erreur 404/);
         expect(message).toBeTruthy();
       });
-
+  
       test("fetches bills from mock API GET and handles 500 error", async () => {
         // Simule une erreur 500 de l'API
         mockStore.bills = jest.fn(() => {
@@ -110,34 +124,20 @@ describe("Given I am connected as an employee", () => {
             list: jest.fn().mockRejectedValue(new Error("Erreur 500"))
           };
         });
-
+  
         localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "e@e" }));
         const root = document.createElement("div");
         root.setAttribute("id", "root");
         document.body.append(root);
         router();
-
+  
         window.onNavigate(ROUTES_PATH.Bills);
-
+  
         await new Promise(process.nextTick);
         const message = await screen.getByText(/Erreur 500/);
         expect(message).toBeTruthy();
-      });
-
-      test("fetches bills from mock API GET for an employee", async () => {    
-        localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "e@e" }));
-        const root = document.createElement("div");
-        root.setAttribute("id", "root");
-        document.body.append(root);
-        router();
-
-        window.onNavigate(ROUTES_PATH.Bills);
-
-        await waitFor(() => screen.getByText("Mes notes de frais"));
-        const tbodyElements = screen.getAllByTestId('tbody');
-        expect(tbodyElements.length).toBe(1);
-      });
+      }); 
     });
-  });
+  }); 
 });
 
