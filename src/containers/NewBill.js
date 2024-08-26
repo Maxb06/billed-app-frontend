@@ -26,12 +26,15 @@ export default class NewBill {
     formData.append('email', email)
     // fix : [Bug Hunt] - NewBill
     const fileExtension = fileName.split('.').pop().toLowerCase();
-    const validExtensions = ['jpg', 'jpeg', 'png']
+    const validExtensions = ['jpg', 'jpeg', 'png'];
+    const errorElement = this.document.querySelector(`p[data-testid="file-error"]`);
     if (!validExtensions.includes(fileExtension)) {
-      // alert('Veuillez sélectionner un fichier avec une extension jpg, jpeg ou png.')
       this.document.querySelector(`input[data-testid="file"]`).value = "";
-      return
+      errorElement.style.display = "block";
+      return;
     }
+  
+    errorElement.style.display = "none"; 
 
     this.store
       .bills()
